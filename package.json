@@ -16,11 +16,9 @@
     "build": "sass src/scss:src/css --style compressed",
     "build:dev": "sass src/scss:src/css --style expanded --watch"
   },
-  "dependencies": {
-  },
   "devDependencies": {
     "@web/dev-server": "^0.3.6",
-    "sass": "^1.69.4",
-    "lit": "^3.0.0"
+    "lit": "^3.0.0",
+    "sass": "^1.93.2"
   }
 }
