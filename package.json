@@ -17,10 +17,10 @@
     "build:dev": "sass src/scss:src/css --style expanded --watch"
   },
   "dependencies": {
-    "lit": "^3.0.0"
   },
   "devDependencies": {
     "@web/dev-server": "^0.3.6",
-    "sass": "^1.69.4"
+    "sass": "^1.69.4",
+    "lit": "^3.0.0"
   }
 }
