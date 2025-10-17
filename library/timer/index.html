@@ -6,13 +6,20 @@
     <title>Document</title>
 </head>
 <style>
-    /* .timer-container {
+    body {
+        background-color: #f7f7f7;
+    }
+    .timer-component {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: center;
-        gap: 12px;
-        padding-top: 120px;
-    } */
+        background-color: #fff;
+        border-radius: 16px;
+        padding: 80px;
+        max-width: 500px;
+        margin: auto;
+        margin-top: 40px;
+    }
 </style>
 <body>
     <!-- <div class="timer-container">
@@ -20,8 +27,9 @@
         <timer-part-component value="12" label="min"></timer-part-component>
         <timer-part-component value="9" label="sec"></timer-part-component>
     </div> -->
-
-    <timer-component hours="0" minutes="5" seconds="20"></timer-component>
+    <div class="timer-component">
+        <timer-component hours="0" minutes="0" seconds="5"></timer-component>
+    </div>
 
     <script type="module" src="./TimerPartComponent.js"></script>
     <script type="module" src="./TimerComponent.js"></script>
