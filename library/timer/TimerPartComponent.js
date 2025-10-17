@@ -19,8 +19,10 @@ export class TimerPartComponent extends LitElement {
         }
 
         .value {
-            background: #334eff;
-            color: white;
+            background: #ffffffff;
+            box-shadow: 5px 5px;
+            border: 1px solid  #1c1c1c;
+            color: #1c1c1c;
             font-size: 1.8rem;
             font-weight: bold;
             padding: 0.8rem 1.2rem;
@@ -30,7 +32,7 @@ export class TimerPartComponent extends LitElement {
         .label {
             font-size: 0.8rem;
             color: #1c1c1c;
-            margin-top: 0.25rem;
+            margin-top: 0.6rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
