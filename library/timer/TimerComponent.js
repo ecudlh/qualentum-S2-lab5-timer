@@ -5,7 +5,9 @@ export class TimerComponent extends LitElement {
         hours: { type: Number},
         minutes: { type: Number},
         seconds: { type: Number},
-        finished: { type: Boolean }
+        finished: { type: Boolean },
+        autostart: { type: Boolean },
+        autoreset: { type: Boolean }
     };
     
     constructor() {
@@ -14,6 +16,8 @@ export class TimerComponent extends LitElement {
         this.minutes = 0;
         this.seconds = 0;
         this.finished = false;
+        this.autostart = false;
+        this.autoreset = false;
 
         this._initialHours = this.hours;
         this._initialMinutes = this.minutes;
@@ -76,6 +80,11 @@ export class TimerComponent extends LitElement {
         this._initialMinutes = this.minutes;
         this._initialSeconds = this.seconds;
         this.totalSeconds = this.hours * 3600 + this.minutes * 60 + this.seconds;
+
+        // Autostart
+        if (this.autostart) {
+            this.startTimer();
+        }
     }
 
     render () {
@@ -129,6 +138,12 @@ export class TimerComponent extends LitElement {
             this.pauseTimer();
             this.finished = true;
             this.dispatchEvent(new CustomEvent('timer-finish', { composed: true }));
+            if(this.autoreset) {
+                setTimeout(() => {
+                    this.resetTimer();
+                    this.startTimer();
+                }, 1000);
+            }
             return;
         }
 
