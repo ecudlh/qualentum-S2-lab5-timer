@@ -8,30 +8,55 @@
 <style>
     body {
         background-color: #f7f7f7;
+        margin: 0;
+        padding: 0;
+        height: 100%;
     }
     .timer-component {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        background-color: #fff;
-        border-radius: 16px;
-        padding: 80px;
+        align-items: center;
+        min-height: 100vh;
         max-width: 500px;
         margin: auto;
-        margin-top: 40px;
     }
+    .timer-header {
+        margin-bottom: 32px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    h1 {
+        font-size: 2.5rem;
+        color: #1c1c1c;
+        font-weight: bold;
+        font-family: sans-serif;
+        text-align: center;
+        padding-bottom: 24px;
+        margin: 0;
+    }
+    .return-link {
+        color: #334eff;
+        font-family: sans-serif;
+        font-weight: 600;
+        text-decoration: none;
+        padding-right: 24px;
+    }
+
 </style>
 <body>
-    <!-- <div class="timer-container">
-        <timer-part-component value="0" label="hrs"></timer-part-component>
-        <timer-part-component value="12" label="min"></timer-part-component>
-        <timer-part-component value="9" label="sec"></timer-part-component>
-    </div> -->
     <div class="timer-component">
-        <timer-component hours="0" minutes="0" seconds="5" autostart autoreset></timer-component>
+        <div class="timer-header">
+            <h1>Timer component</h1>
+            <span id="return"><a href="../../index.html" class="return-link">< Return</a></span>
+        </div>
+        <timer-component direction="down" start="5" limit="0" autostart></timer-component>
+        <sound-component sound="../../src/sounds/sheep.mp3" id="finish-sound"></sound-component>
     </div>
 
-    <script type="module" src="./TimerPartComponent.js"></script>
-    <script type="module" src="./TimerComponent.js"></script>
+    <script type="module" src="./index.js"></script>
+    <script type="module" src="../sound/index.js"></script>
+    
 </body>
 </html>

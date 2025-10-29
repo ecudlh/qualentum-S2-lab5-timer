@@ -7,7 +7,12 @@ export class TimerComponent extends LitElement {
         seconds: { type: Number},
         finished: { type: Boolean },
         autostart: { type: Boolean },
-        autoreset: { type: Boolean }
+        autoreset: { type: Boolean },
+        textfinish: { type: String },
+
+        direction: { type: String, reflect: true }, 
+        start: { type: Number },
+        limit: { type: Number },
     };
     
     constructor() {
@@ -18,6 +23,10 @@ export class TimerComponent extends LitElement {
         this.finished = false;
         this.autostart = false;
         this.autoreset = false;
+        this.textfinish = 'Ready!';
+
+        this.direction = 'down';
+        this.limit = 0;
 
         this._initialHours = this.hours;
         this._initialMinutes = this.minutes;
@@ -28,6 +37,14 @@ export class TimerComponent extends LitElement {
     };
 
     static styles = css `
+        :host {
+            background-color: #fff;
+            padding-inline: 80px;
+            padding-block: 60px;
+            border-radius: 16px;
+            margin-bottom: 80px;
+        }
+
         .timer-container {
             display: flex;
             flex-direction: row;
@@ -72,16 +89,22 @@ export class TimerComponent extends LitElement {
             text-align: center;
             padding-bottom: 24px;
         }
+
+        .separator {
+            padding-top: 12px;
+            font-size: 30px;
+        }
     `;
 
-    // Save initial data 
     firstUpdated() {
+        this.totalSeconds = this.start;
+
+        this.updateParts();
+
         this._initialHours = this.hours;
         this._initialMinutes = this.minutes;
         this._initialSeconds = this.seconds;
-        this.totalSeconds = this.hours * 3600 + this.minutes * 60 + this.seconds;
 
-        // Autostart
         if (this.autostart) {
             this.startTimer();
         }
@@ -90,11 +113,13 @@ export class TimerComponent extends LitElement {
     render () {
         return html `
 
-            ${this.finished ? html`<div class="finished-message">Ready!</div>` : ''}
+            ${this.finished ? html`<div class="finished-message">${this.textfinish}</div>` : ''}
 
             <div class="timer-container">
                 <timer-part-component value=${this.hours} label="hrs"></timer-part-component>
+                <div class="separator">:</div>
                 <timer-part-component value=${this.minutes} label="min"></timer-part-component>
+                <div class="separator">:</div>
                 <timer-part-component value=${this.seconds} label="seg"></timer-part-component>
             </div>
             <div class="timer-controls">
@@ -112,6 +137,7 @@ export class TimerComponent extends LitElement {
 
         this.finished = false;
         this.dispatchEvent(new CustomEvent('timer-play'), {composed: true});
+        this.updateParts();
         this.intervalId = setInterval(this.tick, 1000);
     };
 
@@ -125,30 +151,51 @@ export class TimerComponent extends LitElement {
 
     resetTimer = () => {
         this.pauseTimer();
-        this.hours = this._initialHours;
-        this.minutes = this._initialMinutes;
-        this.seconds = this._initialSeconds;
-        this.totalSeconds = this.hours * 3600 + this.minutes * 60 + this.seconds;
+
+        // Reset al punto inicial
+        if (this.start > 0) {
+            this.totalSeconds = this.start;
+        } else {
+            this.totalSeconds = this._initialHours * 3600 + this._initialMinutes * 60 + this._initialSeconds;
+        }
+
+        this.updateParts();
+
         this.finished = false; 
         this.dispatchEvent(new CustomEvent('timer-reset', { composed: true }));
     };
 
     tick = () => {
-        if (this.totalSeconds <= 0) {
-            this.pauseTimer();
-            this.finished = true;
-            this.dispatchEvent(new CustomEvent('timer-finish', { composed: true }));
-            if(this.autoreset) {
-                setTimeout(() => {
-                    this.resetTimer();
-                    this.startTimer();
-                }, 1000);
+        // Dirección descendente 
+        if (this.direction === 'down') {
+            if (this.totalSeconds <= this.limit) {
+                this.finishTimer();
+                return;
             }
-            return;
+            this.totalSeconds--;
+        } 
+        // Dirección ascendente 
+        else if (this.direction === 'up') {
+            if (this.totalSeconds >= this.limit) {
+                this.finishTimer();
+                return;
+            }
+            this.totalSeconds++;
         }
-
-        this.totalSeconds--;
         this.updateParts();
+    };
+
+    finishTimer() {
+        this.pauseTimer();
+        this.finished = true;
+        this.dispatchEvent(new CustomEvent('timer-finish', { bubbles: true, composed: true }));
+
+        if (this.autoreset) {
+            setTimeout(() => {
+                this.resetTimer();
+                this.startTimer();
+            }, 1000);
+        }
     };
 
     updateParts() {

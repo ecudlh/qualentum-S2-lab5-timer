@@ -1,2 +1,2 @@
-export { TimerComponent } from './TimerComponent';
-export { TimerPartComponent } from './TimerPartComponent';
+import './TimerPartComponent.js';
+import './TimerComponent.js';

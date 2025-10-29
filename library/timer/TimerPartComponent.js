@@ -13,7 +13,14 @@ export class TimerPartComponent extends LitElement {
     }
 
     static styles = css `
-        :host {
+        .timer-part-container{
+            display: flex;
+            flex-direction: row;
+            gap: 16px;
+            align
+        }
+    
+        .timer-part {
             font-family: sans-serif;
             text-align: center;
         }
@@ -44,9 +51,11 @@ export class TimerPartComponent extends LitElement {
 
     render() {
         return html `
-            <div>
-                <div class="value">${this.formatValue()}</div>
-                <div class="label">${this.label}</div>
+            <div class="timer-part-container">
+                <div class="timer-part">
+                    <div class="value">${this.formatValue()}</div>
+                    <div class="label">${this.label}</div>
+                </div>
             </div>
         `;
     }
